@@ -1,12 +1,3 @@
-#pragma once
-
-struct MX5_DATA_PARAM {
-  uint8_t numExpectedBytes;
-  uint8_t dataBytes;
-  float scaleFactor;
-  float bias;
-};
-
 //-------------------------------------------------------------------------------------//
 // MAZDA 3rd GEN MX-5(mk3.5) SPEC
 // https://www2.mazda.co.jp/cars/roadster/spec/pdf/roadster_specification.pdf
@@ -14,6 +5,16 @@ struct MX5_DATA_PARAM {
 
 #define TYRE_OUTER_DIAMETER_16            191.9796    // 205/50R16       
 #define TYRE_OUTER_DIAMETER_17            193.5182    // 205/45R17
+#define WHEEL_BASE                           2.330
+#define TURNING_CIRCLE                       4.700
+#define MAX_STEERING_ANGLE                   (asin(WHEEL_BASE / TURNING_CIRCLE) * 180 / M_PI)
+#define REV_LIMIT                             7500
+#define STEERING_LOCK_TO_LOCK                  2.8
+#define STEERING_MAX                           (STEERING_LOCK_TO_LOCK * 360 / 2)
+#define STEERING_MIN                           (- STEERING_MAX)
+#define SPEED_WARNING                           80
+#define SPEED_WARNING_ON                      true
+#define SPEED_WARNING_OFF                    false
 #define GEAR_RATIO_1                         3.815
 #define GEAR_RATIO_2                         2.260
 #define GEAR_RATIO_3                         1.640
@@ -227,3 +228,9 @@ struct MX5_DATA_PARAM {
 // Vehicle Speed Front Right | `((bytestoint(raw,2,2)/100.00)-100)/3.6` |
 // Vehicle Speed Rear Left | `((bytestoint(raw,4,2)/100.00)-100)/3.6` |
 // Vehicle Speed Rear Right | `((bytestoint(raw,6,2)/100.00)-100)/3.6` |
+
+void mazdaMx5ScreenInit(void);
+void mazdaMx5ShiftIndicator(long unsigned int *,unsigned char *);
+void mazdaMx5SteeringAngle(unsigned char *);
+void mazdaMx5BrakePressure(unsigned char *);
+
